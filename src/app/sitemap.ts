@@ -6,10 +6,19 @@ export const revalidate = 3600
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL!
 
-  const [{ products }, { categories }] = await Promise.all([
-    getProducts({ perPage: 100 }),
-    getCategories(),
-  ])
+  let products: Awaited<ReturnType<typeof getProducts>>['products'] = []
+  let categories: Awaited<ReturnType<typeof getCategories>>['categories'] = []
+
+  try {
+    const [prodResult, catResult] = await Promise.all([
+      getProducts({ perPage: 100 }),
+      getCategories(),
+    ])
+    products = prodResult.products
+    categories = catResult.categories
+  } catch {
+    // WC API unreachable at build time — return static entries only
+  }
 
   return [
     {

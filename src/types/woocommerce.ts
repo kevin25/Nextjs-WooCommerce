@@ -110,14 +110,6 @@ export interface WCRestProduct {
   variations: number[]
   average_rating: string
   review_count: number
-  prices: {
-    price: string
-    regular_price: string
-    sale_price: string
-    currency_code: string
-    currency_symbol: string
-    currency_minor_unit: number
-  }
 }
 
 export interface WCRestVariation {

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getProduct, getProducts } from '@/lib/api'
-import { stripHtml, formatPrice } from '@/lib/utils'
+import { stripHtml } from '@/lib/utils'
 import ProductGallery from '@/components/product/ProductGallery'
 import ProductForm from '@/components/product/ProductForm'
 import ProductBreadcrumb from '@/components/product/ProductBreadcrumb'
@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = stripHtml(product.short_description || product.description).slice(0, 155)
   const canonical = `/product/${slug}`
   const ogImage = product.images[0]?.src ?? `${SITE_URL}/og-default.jpg`
-  const price = (Number(product.prices.price) / Math.pow(10, product.prices.currency_minor_unit)).toFixed(2)
-  const currency = product.prices.currency_code ?? 'USD'
+  const price = product.price
+  const currency = 'USD'
 
   return {
     title,
@@ -48,14 +48,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // ── Static Path Generation ─────────────────────────────────────────────────
 export async function generateStaticParams() {
-  const { products } = await getProducts({ perPage: 100 })
-  return products.map((p) => ({ slug: p.slug }))
+  try {
+    const { products } = await getProducts({ perPage: 100 })
+    return products.map((p) => ({ slug: p.slug }))
+  } catch {
+    return []
+  }
 }
 
 // ── JSON-LD Builder ────────────────────────────────────────────────────────
 function buildJsonLd(product: NonNullable<Awaited<ReturnType<typeof getProduct>>['product']>, slug: string) {
-  const decimalPlaces = product.prices.currency_minor_unit
-  const price = (Number(product.prices.price) / Math.pow(10, decimalPlaces)).toFixed(2)
+  const price = product.price
 
   const productLd = {
     '@context': 'https://schema.org',
@@ -77,7 +80,7 @@ function buildJsonLd(product: NonNullable<Awaited<ReturnType<typeof getProduct>>
       '@id': `${SITE_URL}/product/${slug}#offer`,
       url: `${SITE_URL}/product/${slug}`,
       price,
-      priceCurrency: product.prices.currency_code ?? 'USD',
+      priceCurrency: 'USD',
       priceValidUntil: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
       availability: product.is_in_stock
         ? 'https://schema.org/InStock'
@@ -129,7 +132,7 @@ function buildJsonLd(product: NonNullable<Awaited<ReturnType<typeof getProduct>>
             name: `How much does ${product.name} cost?`,
             acceptedAnswer: {
               '@type': 'Answer',
-              text: `${product.name} is priced at ${product.prices.currency_symbol}${price}.${product.is_in_stock ? ' Currently in stock.' : ' Currently out of stock.'}`,
+              text: `${product.name} is priced at $${price}.${product.is_in_stock ? ' Currently in stock.' : ' Currently out of stock.'}`,
             },
           },
           ...(product.attributes.length > 0
@@ -158,11 +161,7 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound()
 
   const { productLd, breadcrumbLd, faqLd } = buildJsonLd(product, slug)
-  const price = formatPrice(
-    product.prices.price,
-    product.prices.currency_symbol,
-    product.prices.currency_minor_unit
-  )
+  const price = `$${product.price}`
 
   return (
     <>
@@ -200,12 +199,12 @@ export default async function ProductPage({ params }: Props) {
               <div itemProp="offers" itemScope itemType="https://schema.org/Offer" className="mt-2">
                 <span
                   itemProp="price"
-                  content={(Number(product.prices.price) / Math.pow(10, product.prices.currency_minor_unit)).toFixed(2)}
+                  content={product.price}
                   className="text-2xl font-semibold"
                 >
                   {price}
                 </span>
-                <meta itemProp="priceCurrency" content={product.prices.currency_code ?? 'USD'} />
+                <meta itemProp="priceCurrency" content="USD" />
               </div>
               {product.short_description && (
                 <div

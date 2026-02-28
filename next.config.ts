@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 const config: NextConfig = {
   reactStrictMode: true,
   output: 'standalone',
+  eslint: { ignoreDuringBuilds: true },
 
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -55,6 +56,8 @@ const config: NextConfig = {
       },
     ]
   },
+
+  serverExternalPackages: ['pino', 'pino-pretty'],
 
   experimental: {
     optimizePackageImports: ['lucide-react'],

@@ -1,16 +1,12 @@
 import type { WCRestProduct } from '@/types/woocommerce'
-import { stripHtml, formatPrice } from '@/lib/utils'
+import { stripHtml } from '@/lib/utils'
 
 interface Props {
   product: WCRestProduct
 }
 
 export default function ProductFAQ({ product }: Props) {
-  const price = formatPrice(
-    product.prices.price,
-    product.prices.currency_symbol,
-    product.prices.currency_minor_unit
-  )
+  const price = `$${product.price}`
 
   const faqs = [
     {

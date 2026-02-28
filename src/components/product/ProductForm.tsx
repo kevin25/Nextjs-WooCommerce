@@ -1,7 +1,6 @@
 'use client'
 import { useState, useMemo } from 'react'
 import type { WCRestProduct, WCRestVariation } from '@/types/woocommerce'
-import { formatPrice } from '@/lib/utils'
 import { matchVariation, buildVariationPayload } from '@/lib/utils/variations'
 import AddToCartButton from './AddToCartButton'
 
@@ -47,8 +46,8 @@ export default function ProductForm({ product, variations }: Props) {
     variationAttributes.every((attr) => selectedValues[attr.slug])
 
   const currentPrice = matchedVariation
-    ? formatPrice(matchedVariation.price, product.prices.currency_symbol, product.prices.currency_minor_unit)
-    : formatPrice(product.prices.price, product.prices.currency_symbol, product.prices.currency_minor_unit)
+    ? `$${matchedVariation.price}`
+    : `$${product.price}`
 
   const inStock = matchedVariation
     ? matchedVariation.stock_status === 'instock'

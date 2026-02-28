@@ -32,8 +32,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const { categories } = await getCategories()
-  return categories.map((c) => ({ slug: c.slug }))
+  try {
+    const { categories } = await getCategories()
+    return categories.map((c) => ({ slug: c.slug }))
+  } catch {
+    return []
+  }
 }
 
 export default async function CategoryPage({ params }: Props) {

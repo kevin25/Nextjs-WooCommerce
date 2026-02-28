@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { randomUUID } from 'crypto'
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next()
 
-  // X-Request-ID for tracing
-  response.headers.set('X-Request-ID', randomUUID())
+  // X-Request-ID for tracing (Web Crypto API — Edge-compatible)
+  response.headers.set('X-Request-ID', crypto.randomUUID())
 
   // Block external origins from hitting internal API routes
   const origin = request.headers.get('origin')
