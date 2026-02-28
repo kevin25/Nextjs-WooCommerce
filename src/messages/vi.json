@@ -1,0 +1,41 @@
+{
+  "common": {
+    "home": "Trang chu",
+    "products": "San pham",
+    "categories": "Danh muc",
+    "cart": "Gio hang",
+    "checkout": "Thanh toan",
+    "search": "Tim kiem",
+    "loading": "Dang tai...",
+    "error": "Da xay ra loi",
+    "notFound": "Khong tim thay trang"
+  },
+  "product": {
+    "addToCart": "Them vao gio",
+    "outOfStock": "Het hang",
+    "inStock": "Con hang",
+    "quantity": "So luong",
+    "description": "Mo ta",
+    "faq": "Cau hoi thuong gap",
+    "whatIs": "{name} la gi?",
+    "howMuch": "{name} gia bao nhieu?",
+    "options": "Cac tuy chon cho {name}?"
+  },
+  "cart": {
+    "title": "Gio hang cua ban",
+    "empty": "Gio hang trong",
+    "subtotal": "Tam tinh",
+    "total": "Tong cong",
+    "continueShopping": "Tiep tuc mua sam",
+    "proceedToCheckout": "Tien hanh thanh toan",
+    "remove": "Xoa",
+    "added": "Da them vao gio",
+    "updated": "Da cap nhat gio hang",
+    "removed": "Da xoa san pham"
+  },
+  "category": {
+    "allCategories": "Tat ca danh muc",
+    "productsIn": "San pham trong {name}",
+    "noProducts": "Khong co san pham trong danh muc nay"
+  }
+}

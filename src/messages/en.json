@@ -1,0 +1,41 @@
+{
+  "common": {
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "notFound": "Page not found"
+  },
+  "product": {
+    "addToCart": "Add to Cart",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock",
+    "quantity": "Quantity",
+    "description": "Description",
+    "faq": "Frequently Asked Questions",
+    "whatIs": "What is {name}?",
+    "howMuch": "How much does {name} cost?",
+    "options": "What options are available for {name}?"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "continueShopping": "Continue Shopping",
+    "proceedToCheckout": "Proceed to Checkout",
+    "remove": "Remove",
+    "added": "Added to cart",
+    "updated": "Cart updated",
+    "removed": "Item removed"
+  },
+  "category": {
+    "allCategories": "All Categories",
+    "productsIn": "Products in {name}",
+    "noProducts": "No products found in this category"
+  }
+}
